@@ -4,22 +4,25 @@ namespace Rest;
 class User
 {
     protected $user;
-    private $nhecToken = 'nhec2017';
+    private $validTokens = array(
+        'nhec2017'
+    );
 
     public function __construct()
     {
     }
 
-    public function verifyUserToken($type, $givenToken)
+    public function verifyUserToken($givenToken)
     {
         if (!isset($givenToken) || !isset($type)) {
             return false;
         }
 
-        if ($type == 'token' && $givenToken == $this->nhecToken) {
-            return true;
-        } else {
-            return false;
+        foreach ($this->validTokens as $token) {
+            if ($token == $givenToken) {
+                return true;
+            }
         }
+        return false;
     }
 }

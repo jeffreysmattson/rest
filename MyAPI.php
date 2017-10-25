@@ -21,7 +21,7 @@ class MyAPI extends AbstractAPI
         } elseif (!$Key->verifyKey($this->request['apiKey'], $origin)) {
             throw new Exception('Invalid API Key');
         } elseif (array_key_exists('token', $this->request) &&
-            !$User->verifyUserToken('token', $this->request['token'])) {
+            !$User->verifyUserToken($this->request['token'])) {
             throw new Exception('Invalid User Token');
         }
     }
@@ -32,7 +32,7 @@ class MyAPI extends AbstractAPI
     protected function outage($args)
     {
         //echo "Args: ";
-        //var_dump($this->file);
+        var_dump($this->file);
         
         if ($this->method == 'POST') {
             return "This method is POST";
