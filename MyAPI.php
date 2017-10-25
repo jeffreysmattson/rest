@@ -27,7 +27,7 @@ class MyAPI extends AbstractAPI
     }
 
     /**
-     * Example of an Endpoint
+     * Outage Endpoint
      */
     protected function outage($args)
     {
