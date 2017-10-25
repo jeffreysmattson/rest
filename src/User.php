@@ -1,5 +1,5 @@
 <?php
-namespace Rest;
+namespace Setup;
 
 class User
 {

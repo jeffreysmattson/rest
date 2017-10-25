@@ -1,9 +1,7 @@
 <?php
-namespace Rest;
+namespace Setup;
 
-require_once 'AbstractAPI.php';
-require_once 'Key.php';
-require_once 'User.php';
+use Exception;
 
 class MyAPI extends AbstractAPI
 {
