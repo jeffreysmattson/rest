@@ -36,6 +36,10 @@ abstract class AbstractAPI
      */
     protected $file = null;
 
+    /**
+     * Property: request
+     * Stores the PUT, POST, GET data 
+     */
     protected $request;
 
     /**
@@ -71,17 +75,17 @@ abstract class AbstractAPI
         switch($this->method) {
             case 'DELETE':
             case 'POST':
-                $this->request = $this->_cleanInputs($_POST);
+                $this->request = $this->cleanInputs($_POST);
                 break;
             case 'GET':
-                $this->request = $this->_cleanInputs($_GET);
+                $this->request = $this->cleanInputs($_GET);
                 break;
             case 'PUT':
-                $this->request = $this->_cleanInputs($_GET);
+                $this->request = $this->cleanInputs($_GET);
                 $this->file = file_get_contents("php://input");
                 break;
             default:
-                $this->_response('Invalid Method', 405);
+                $this->response('Invalid Method', 405);
                 break;
         }
     }
@@ -89,23 +93,23 @@ abstract class AbstractAPI
     public function processAPI()
     {
         if (method_exists($this, $this->endpoint)) {
-            return $this->_response($this->{$this->endpoint}($this->args));
+            return $this->response($this->{$this->endpoint}($this->args));
         }
-        return $this->_response("No Endpoint: $this->endpoint", 404);
+        return $this->response("No Endpoint: $this->endpoint", 404);
     }
 
-    private function _response($data, $status = 200)
+    private function response($data, $status = 200)
     {
-        header("HTTP/1.1 " . $status . " " . $this->_requestStatus($status));
+        header("HTTP/1.1 " . $status . " " . $this->requestStatus($status));
         return json_encode($data);
     }
 
-    private function _cleanInputs($data)
+    private function cleanInputs($data)
     {
         $clean_input = array();
         if (is_array($data)) {
             foreach ($data as $k => $v) {
-                $clean_input[$k] = $this->_cleanInputs($v);
+                $clean_input[$k] = $this->cleanInputs($v);
             }
         } else {
             $clean_input = trim(strip_tags($data));
@@ -113,7 +117,7 @@ abstract class AbstractAPI
         return $clean_input;
     }
 
-    private function _requestStatus($code)
+    private function requestStatus($code)
     {
         $status = array(
             200 => 'OK',
