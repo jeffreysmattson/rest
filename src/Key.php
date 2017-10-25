@@ -5,9 +5,13 @@ class Key
 {
     protected $key;
 
-    private $accessKeys = array(
+    private $accessCredentials = array(
         array(
             'origin'    => '192.168.33.10',
+            'key'       => '123456'
+        ),
+        array(
+            'origin'    => 'local.laravel.dev',
             'key'       => '123456'
         ),
         array(
@@ -22,7 +26,7 @@ class Key
 
     public function verifyKey($key, $origin)
     {
-        foreach ($this->accessKeys as $access) {
+        foreach ($this->accessCredentials as $access) {
             if (($access['origin'] == $origin) && ($access['key'] == $key)) {
                 return true;
             }
